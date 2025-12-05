@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="form.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conferência - Rádio Vargas</title>
+    
+    <style>
+        .item-relatorio {
+            border-bottom: 1px solid #aacbff; /* Linha azul clara */
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .item-relatorio strong {
+            color: #003d73; /* Azul escuro */
+        }
+
+        .btn-voltar {
+            background-color: #c7ddff; /* Azul clarinho */
+            color: #002d5c;
+            margin-top: 10px;
+        }
+
+        .btn-voltar:hover {
+            background-color: #9fc4ff;
+        }
+
+        hr {
+            border-top: 1px solid #7baaff !important; /* Borda azul */
+        }
+
+        h1 {
+            color: #003d73 !important;
+        }
+
+        h3 {
+            color: #355c85 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Confira seus Dados</h1>
+        <h3>Antes de finalizar, verifique se está tudo certo.</h3>
+        <hr style="margin-bottom: 25px;">
+
+        <div id="lista-dados"></div>
+
+        <br>
+        <div class="row-dupla">
+            <button onclick="history.back()" class="btn-enviar btn-voltar">Voltar / Editar</button>
+            <br>
+            <br>
+            <button onclick="finalizarCadastro()" class="btn-enviar">Confirmar Envio</button>
+        </div>
+    </div>
+
+    <script>
+        const dados = JSON.parse(localStorage.getItem('dadosBitelo'));
+
+        if (dados) {
+            const lista = document.getElementById('lista-dados');
+            
+            const criarLinha = (label, valor) => {
+                return `<div class="item-relatorio">
+                            <strong>${label}:</strong> 
+                            <span style="text-align: right; margin-left: 10px;">${valor}</span>
+                        </div>`;
+            };
+
+            lista.innerHTML = 
+                criarLinha('Nome', dados.nome) +
+                criarLinha('Email', dados.email) +
+                criarLinha('Telefone', dados.telefone) +
+                criarLinha('Nascimento', dados.nascimento) +
+                criarLinha('Música Solicitada', dados.musica) +
+                criarLinha('Artista', dados.artista) +
+                criarLinha('Mensagem', dados.msg) +
+                criarLinha('Foto (Arquivo)', dados.foto);
+
+        } else {
+            document.getElementById('lista-dados').innerHTML = "<p>Nenhum dado encontrado.</p>";
+        }
+
+        function finalizarCadastro() {
+            localStorage.removeItem('dadosBitelo');
+            window.location.href = 'enviado.html';
+        }
+    </script>
+</body>
+</html>
